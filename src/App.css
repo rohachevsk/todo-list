@@ -31,12 +31,13 @@ body {
 }
 
 #root {
-  max-width: 720px;
+  max-width: 900px;
   margin: 0 auto;
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 24px 16px;
 }
 
 .todo-app {
@@ -67,7 +68,10 @@ body {
   align-items: center;
   justify-content: center;
   margin-bottom: 22px;
+  flex: 0 0 180px; /* fixed-ish width on larger screens */
 }
+
+.todo-app { flex: 1; }
 
 .timer .time {
   font-family: 'Inter', ui-monospace, SFMono-Regular, Menlo, Monaco, 'Roboto Mono', monospace;
@@ -86,7 +90,7 @@ body {
 /* Inputs */
 .todo-input {
   display: flex;
-  flex-direction: column;
+  flex-direction: row; /* row on larger screens, stacked on small devices via media query */
   gap: 10px;
   align-items: center;
   width: 100%;
@@ -244,4 +248,52 @@ button:hover {
   border-radius: 12px;
   border: 1px solid rgba(255,255,255,0.03);
   backdrop-filter: blur(6px);
+}
+
+/* Layout for App */
+.App {
+  display: flex;
+  gap: 28px;
+  align-items: flex-start;
+  justify-content: center;
+  max-width: 900px;
+  width: 100%;
+}
+
+/* Stack vertically on small/medium screens */
+@media (max-width: 768px) {
+  .App {
+    flex-direction: column;
+    gap: 18px;
+  }
+  .timer { flex: none; width: 100%; }
+  .todo-app {
+    padding: 22px;
+    border-radius: 14px;
+  }
+  .timer .time {
+    font-size: 40px;
+    padding: 14px 20px;
+  }
+}
+
+/* Small devices */
+@media (max-width: 480px) {
+  body { padding: 16px; }
+  .todo-app { padding: 16px; border-radius: 12px; }
+  .timer .time { font-size: 32px; padding: 10px 14px; }
+  .todo-input { flex-direction: column; gap: 8px; align-items: stretch; }
+  .todo-input button { min-width: 0; width: 100%; }
+  .controls { flex-direction: column; gap: 8px; }
+  .todo-list li { flex-direction: column; align-items: stretch; gap: 10px; }
+  .delete-btn { align-self: flex-end; }
+  .todo-text { font-size: 14px; }
+  .timer { margin-bottom: 8px; }
+  #root { padding: 12px; }
+}
+
+/* Improve touch targets */
+@media (pointer: coarse) {
+  button { padding: 14px 18px; }
+  .todo-checkbox { width: 40px; height: 40px; }
 }
